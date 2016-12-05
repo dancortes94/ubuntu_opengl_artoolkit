@@ -24,42 +24,43 @@ cd ~/programacion_graficos
 cd zips
 pwd
 wget http://prdownloads.sourceforge.net/freeglut/freeglut-3.0.0.tar.gz
-tar zxvf freeglut-3.0.0.tar.gz
-cd ~/programacion_graficos/zips/freeglut-3.0.0/
+cd ~/programacion_graficos
+tar zxvf ~/programacion_graficos/zips/freeglut-3.0.0.tar.gz
+cd ~/programacion_graficos/freeglut-3.0.0/
 cmake .
-make
+make -j7 # runs 7 jobs in parallel
 sudo  make install
-cd ~/programacion_graficos/zips/
+cd ~/programacion_graficos/
 git clone --branch OpenSceneGraph-3.4.0 https://github.com/openscenegraph/OpenSceneGraph.git
-cd ~/programacion_graficos/zips/OpenSceneGraph
+cd ~/programacion_graficos/OpenSceneGraph
 cmake .
-make
+make -j7 # runs 7 jobs in parallel
 sudo make install
-cd ~/programacion_graficos/zips/
+cd ~/programacion_graficos/
 git clone https://github.com/opencv/opencv.git
-cd ~/programacion_graficos/zips/opencv
+cd ~/programacion_graficos/opencv
 git checkout 2.4
 mkdir build
-cd ~/programacion_graficos/zips/opencv/build
+cd ~/programacion_graficos/opencv/build
 cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
 make -j7 # runs 7 jobs in parallel
 sudo make install
-cd ~/programacion_graficos/zips/
+cd ~/programacion_graficos
 mkdir artoolkit
 if [ "$(uname -m | grep '64')" != "" ]; then
     echo "ARCH: 64-bit"
+    cd ~/programacion_graficos/zips
     wget http://www.artoolkit.org/dist/artoolkit5/5.3/ARToolKit5-bin-5.3.2r1-Linux-x86_64.tar.gz
+    cd ~/programacion_graficos/artoolkit
+    tar zxvf ~/programacion_graficos/zips/ARToolKit5-bin-5.3.2r1-Linux-x86_64.tar.gz
 else
     echo "ARCH: 32-bit"
+    cd ~/programacion_graficos/zips
     wget http://www.artoolkit.org/dist/artoolkit5/5.3/ARToolKit5-bin-5.3.2r1-Linux-i686.tar.gz
+    cd ~/programacion_graficos/artoolkit
+    tar zxvf ~/programacion_graficos/zips/ARToolKit5-bin-5.3.2r1-Linux-i686.tar.gz
 fi
 
-for f in *.tar.gz
-do
-    mv $f artoolkit/
-    cd ~/programacion_graficos/zips/artoolkit
-    tar zxvf "$f"
-done
 echo "ARTOOLKIT5_ROOT=/home/dcortes/Downloads/ARToolkit; export ARTOOLKIT5_ROOT
 PKG_CONFIG_PATH=/home/dcortes/Downloads/opencv-2.2.0-artoolworks/lib/pkgconfig; export PKG_CONFIG_PATH
  export ARTOOLKIT5_VCONF=\"-device=LinuxV4L2\"" >> ~/.profile
@@ -68,8 +69,8 @@ PKG_CONFIG_PATH=/home/dcortes/Downloads/opencv-2.2.0-artoolworks/lib/pkgconfig; 
  export ARTOOLKIT5_VCONF=\"-device=LinuxV4L2\"" >> ~/.bash_profile
 source ~/.profile
 source ~/.bash_profile
-cd ~/programacion_graficos/zips/artoolkit/share
+cd ~/programacion_graficos/artoolkit/share
 ./artoolkit5-setenv
-cd ~/programacion_graficos/zips/artoolkit
+cd ~/programacion_graficos/artoolkit
 ./Configure
 make
