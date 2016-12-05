@@ -19,15 +19,15 @@ sudo apt-get install -y llvm-3.6-runtime llvm-3.8 llvm-3.8-dev llvm-3.8-runtime 
 cd
 mkdir programacion_graficos
 mkdir programacion_graficos/zips
-cd programacion_graficos
+cd ~/programacion_graficos
 cd zips
 pwd
 wget http://prdownloads.sourceforge.net/freeglut/freeglut-3.0.0.tar.gz
-cd freeglut-3.0.0/
+tar zxvf freeglut-3.0.0.tar.gz
+cd ~/programacion_graficos/zips/freeglut-3.0.0/
 cmake .
 make
 sudo  make install
-tar zxvf freeglut-3.0.0.tar.gz
 if [ "$(uname -m | grep '64')" != "" ]; then
     echo "ARCH: 64-bit"
     wget http://www.artoolkit.org/dist/artoolkit5/5.3/ARToolKit5-bin-5.3.2r1-Linux-x86_64.tar.gz
@@ -35,25 +35,26 @@ else
     echo "ARCH: 32-bit"
     wget http://www.artoolkit.org/dist/artoolkit5/5.3/ARToolKit5-bin-5.3.2r1-Linux-i686.tar.gz
 fi
-git clone --branch OpenSceneGraph-3.4.0 https://github.com/openscenegraph/OpenSceneGraph.git
-cd OpenSceneGraph
-cmake .
-make
-sudo make install
-cd ..
+# git clone --branch OpenSceneGraph-3.4.0 https://github.com/openscenegraph/OpenSceneGraph.git
+# cd ~/programacion_graficos/zips/OpenSceneGraph
+# cmake .
+# make
+# sudo make install
+cd ~/programacion_graficos/zips/
 git clone https://github.com/opencv/opencv.git
-cd opencv
+cd ~/programacion_graficos/zips/opencv
 git checkout 2.4
 mkdir build
-cd build
-cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_ INSTALL -y_PREFIX=/usr/local ..
+cd ~/programacion_graficos/zips/opencv/build
+cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
 make -j7 # runs 7 jobs in parallel
-cd ../..
+sudo make install
+cd ~/programacion_graficos/zips/
 mkdir artoolkit
 for f in *.tar.gz
 do
     mv $f artoolkit/
-    cd artoolkit
+    cd ~/programacion_graficos/zips/artoolkit
     tar zxvf "$f"
 done
 echo "ARTOOLKIT5_ROOT=/home/dcortes/Downloads/ARToolkit; export ARTOOLKIT5_ROOT
@@ -64,8 +65,8 @@ PKG_CONFIG_PATH=/home/dcortes/Downloads/opencv-2.2.0-artoolworks/lib/pkgconfig; 
  export ARTOOLKIT5_VCONF=\"-device=LinuxV4L2\"" >> ~/.bash_profile
 source ~/.profile
 source ~/.bash_profile
-cd share
+cd ~/programacion_graficos/zips/artoolkit/share
 ./artoolkit5-setenv
-cd ..
+cd ~/programacion_graficos/zips/artoolkit
 ./Configure
 make
