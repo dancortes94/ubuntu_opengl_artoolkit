@@ -1,0 +1,2 @@
+g++ -L/usr/lib -o <Name of the executable> <name of the code> -lglut 
+-lGL -lGLU -lXxf86vm -lX11 -lpthread ../../../../../usr/lib/x86_64-linux-gnu/libXi.so -lglut -lGLU -lGL
