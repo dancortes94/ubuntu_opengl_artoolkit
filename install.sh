@@ -15,7 +15,8 @@ sudo apt-get install -y libx11-dev libx11-doc libx11-protocol-perl libx11-xcb-de
 sudo apt-get install -y libxinerama-dev libxinerama1 libxkbcommon-dev
 sudo apt-get install -y libxkbcommon-x11-0 libxkbcommon0 libxkbfile1 libxrandr-dev libxrandr2 libxrender-dev libxrender1 llvm-3.6 llvm-3.6-dev
 sudo apt-get install -y llvm-3.6-runtime llvm-3.8 llvm-3.8-dev llvm-3.8-runtime make pkg-config
-#sudo dpkg --set-selections < paquetes.txt && sudo apt-get -y -u dselect-upgrade
+sudo apt-get install -y freeglut3 freeglut3-dev
+
 cd
 mkdir programacion_graficos
 mkdir programacion_graficos/zips
@@ -28,18 +29,12 @@ cd ~/programacion_graficos/zips/freeglut-3.0.0/
 cmake .
 make
 sudo  make install
-if [ "$(uname -m | grep '64')" != "" ]; then
-    echo "ARCH: 64-bit"
-    wget http://www.artoolkit.org/dist/artoolkit5/5.3/ARToolKit5-bin-5.3.2r1-Linux-x86_64.tar.gz
-else
-    echo "ARCH: 32-bit"
-    wget http://www.artoolkit.org/dist/artoolkit5/5.3/ARToolKit5-bin-5.3.2r1-Linux-i686.tar.gz
-fi
-# git clone --branch OpenSceneGraph-3.4.0 https://github.com/openscenegraph/OpenSceneGraph.git
-# cd ~/programacion_graficos/zips/OpenSceneGraph
-# cmake .
-# make
-# sudo make install
+cd ~/programacion_graficos/zips/
+git clone --branch OpenSceneGraph-3.4.0 https://github.com/openscenegraph/OpenSceneGraph.git
+cd ~/programacion_graficos/zips/OpenSceneGraph
+cmake .
+make
+sudo make install
 cd ~/programacion_graficos/zips/
 git clone https://github.com/opencv/opencv.git
 cd ~/programacion_graficos/zips/opencv
@@ -51,6 +46,14 @@ make -j7 # runs 7 jobs in parallel
 sudo make install
 cd ~/programacion_graficos/zips/
 mkdir artoolkit
+if [ "$(uname -m | grep '64')" != "" ]; then
+    echo "ARCH: 64-bit"
+    wget http://www.artoolkit.org/dist/artoolkit5/5.3/ARToolKit5-bin-5.3.2r1-Linux-x86_64.tar.gz
+else
+    echo "ARCH: 32-bit"
+    wget http://www.artoolkit.org/dist/artoolkit5/5.3/ARToolKit5-bin-5.3.2r1-Linux-i686.tar.gz
+fi
+
 for f in *.tar.gz
 do
     mv $f artoolkit/
